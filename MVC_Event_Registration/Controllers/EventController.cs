@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ERM_BLL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,14 @@ namespace MVC_Event_Registration.Controllers
         // GET: Event
         public ActionResult Index()
         {
-            return View();
+            // Create an instance of EventService
+            EventService eventService = new EventService();
+
+            // Call the GetAllEvents method of EventService to get all events
+            var events = eventService.GetAllEvents();
+
+            // Pass the list of events to the view
+            return View(events);
         }
 
         // GET: Event/Details/5

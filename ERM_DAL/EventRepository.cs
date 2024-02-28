@@ -35,9 +35,38 @@ namespace ERM_DAL
 
                 // Use SqlDataAdapter to fill the data from the database into a DataTable
                 // SqlDataAdapter is a part of ADO.NET data provider
-                // ADO.NET will fire the SQL query using the SqlCommand object
                 SqlDataAdapter adapter = new SqlDataAdapter(sqlCommand);
+
+                // Create a new DataTable object
+                // At this point, the DataTable is empty
+                DataTable dt = new DataTable();
+
+                // At this point, the SqlDataAdapter will fire the SQL query and fill the DataTable with the data
+                adapter.Fill(dt);
+
+                // Convert ADO.NET DataTable to List of Event objects
+                // Loop through each row in the DataTable
+                foreach (DataRow row in dt.Rows)
+                {
+                    // Create a new Event object
+                    Event e = new Event();
+
+                    // Set the properties of the Event object
+                    e.EventId = Convert.ToInt32(row["EventId"]);
+                    e.Name = row["Name"].ToString();
+                    e.Date = Convert.ToDateTime(row["Date"]);
+                    e.Location = row["Location"].ToString();
+                    e.Description = row["Description"].ToString();
+
+                    // Add the Event object to the list
+                    events.Add(e);
+                }
+
+                // Return the list of events
+                return events;
             }
         }
+
+        // Now, go to EventService.cs and implement the GetAllEvents method
     }
 }

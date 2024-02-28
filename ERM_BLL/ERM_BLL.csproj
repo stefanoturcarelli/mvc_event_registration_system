@@ -50,6 +50,10 @@
       <Project>{0bd44a90-74f5-4df0-a131-84454e9ab83f}</Project>
       <Name>ERM_DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ERM_ENTITIES\ERM_ENTITIES.csproj">
+      <Project>{49A0227F-EE83-453A-A3E8-7B6FE8BABE1E}</Project>
+      <Name>ERM_ENTITIES</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
