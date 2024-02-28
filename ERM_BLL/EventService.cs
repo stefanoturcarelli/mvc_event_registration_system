@@ -27,5 +27,15 @@ namespace ERM_BLL
             return events;
         }
         // Now, go to EventController.cs and implement inside the Index method the code to get all events from the database using EventService.
+
+        public bool AddEventService(Event e)
+        {
+            // Create an instance of EventRepository
+            EventRepository eR = new EventRepository();
+
+            // Call the AddEvent method of EventRepository to add an event
+            return eR.AddEvent(e);
+        }
+        // Now, go to EventController.cs and implement inside the Create method the code to add an event to the database using EventService.
     }
 }

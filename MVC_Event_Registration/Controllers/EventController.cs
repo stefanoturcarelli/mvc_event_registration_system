@@ -1,4 +1,5 @@
 ﻿using ERM_BLL;
+using ERM_ENTITIES;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,13 +37,26 @@ namespace MVC_Event_Registration.Controllers
 
         // POST: Event/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Event e)
         {
             try
             {
                 // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
+                // Create an instance of EventService
+                EventService eventService = new EventService();
+
+                // Call the AddEvent method of EventService to add an event
+                if (eventService.AddEventService(e))
+                {
+                    ViewBag.Message = "Event added successfully";
+                    return View();
+                    //return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View();
+                }
             }
             catch
             {

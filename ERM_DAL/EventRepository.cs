@@ -66,7 +66,47 @@ namespace ERM_DAL
                 return events;
             }
         }
-
         // Now, go to EventService.cs and implement the GetAllEvents method
+
+
+        public bool AddEvent(Event e)
+        {
+
+            // Connect to the database and add an event with "using" statement
+            using (SqlConnection conn = new SqlConnection(Connection.ConnectionString))
+            {
+                // Fire a SQL query (Stored Procedure) to add an event
+                SqlCommand sqlCommand = new SqlCommand("usp_AddEvent", conn);
+
+                // Set the command type to stored procedure
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                // Add parameters to the stored procedure
+                sqlCommand.Parameters.AddWithValue("@Name", e.Name);
+                sqlCommand.Parameters.AddWithValue("@Date", e.Date);
+                sqlCommand.Parameters.AddWithValue("@Location", e.Location);
+                sqlCommand.Parameters.AddWithValue("@Description", e.Description);
+
+                // Open the connection
+                conn.Open();
+
+                // Execute the command
+                int rowsAffected = sqlCommand.ExecuteNonQuery();
+
+                // Close the connection
+                conn.Close();
+
+                if (rowsAffected > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+        }
+        // Now, go to EventService.cs and implement the AddEvent method
     }
 }
