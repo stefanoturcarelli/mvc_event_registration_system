@@ -67,18 +67,38 @@ namespace MVC_Event_Registration.Controllers
         // GET: Event/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            // Create an instance of EventService
+            EventService eventService = new EventService();
+
+            // Fetch all events and use LINQ to get the event with the specified id
+            var specificEvent = eventService.GetAllEvents().Find(e => e.EventId == id);
+
+            // Pass the event to the view
+            return View(specificEvent);
         }
 
         // POST: Event/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Event e)
         {
             try
             {
                 // TODO: Add update logic here
 
-                return RedirectToAction("Index");
+                // Create an instance of EventService
+                EventService eventService = new EventService();
+
+                // Call the UpdateEvent method of EventService to update an event
+                if (eventService.UpdateEventService(e))
+                {
+                    ViewBag.Message = "Event updated successfully";
+                    return View();
+                    //return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View();
+                }
             }
             catch
             {
@@ -89,7 +109,20 @@ namespace MVC_Event_Registration.Controllers
         // GET: Event/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            // Create an instance of EventService
+            EventService eventService = new EventService();
+
+            // Call the DeleteEvent method of EventService to delete an event
+            if (eventService.DeleteEventService(id))
+            {
+                ViewBag.Message = "Event deleted successfully";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewBag.Message = "Event not deleted";
+                return RedirectToAction("Index");
+            }
         }
 
         // POST: Event/Delete/5

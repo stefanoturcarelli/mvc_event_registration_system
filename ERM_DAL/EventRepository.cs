@@ -68,7 +68,6 @@ namespace ERM_DAL
         }
         // Now, go to EventService.cs and implement the GetAllEvents method
 
-
         public bool AddEvent(Event e)
         {
 
@@ -108,5 +107,79 @@ namespace ERM_DAL
 
         }
         // Now, go to EventService.cs and implement the AddEvent method
+
+        public bool DeleteEvent(int eventId)
+        {
+            // Connect to the database and delete an event with "using" statement
+            using (SqlConnection conn = new SqlConnection(Connection.ConnectionString))
+            {
+                // Fire a SQL query (Stored Procedure) to delete an event
+                SqlCommand sqlCommand = new SqlCommand("usp_DeleteEvent", conn);
+
+                // Set the command type to stored procedure
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                // Add parameters to the stored procedure
+                sqlCommand.Parameters.AddWithValue("@EventId", eventId);
+
+                // Open the connection
+                conn.Open();
+
+                // Execute the command
+                int rowsAffected = sqlCommand.ExecuteNonQuery();
+
+                // Close the connection
+                conn.Close();
+
+                if (rowsAffected > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        // Now, go to EventService.cs and implement the DeleteEvent method
+
+        public bool UpdateEvent(Event e)
+        {
+            // Connect to the database and update an event with "using" statement
+            using (SqlConnection conn = new SqlConnection(Connection.ConnectionString))
+            {
+                // Fire a SQL query (Stored Procedure) to update an event
+                SqlCommand sqlCommand = new SqlCommand("usp_UpdateEvent", conn);
+
+                // Set the command type to stored procedure
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                // Add parameters to the stored procedure
+                sqlCommand.Parameters.AddWithValue("@EventId", e.EventId);
+                sqlCommand.Parameters.AddWithValue("@Name", e.Name);
+                sqlCommand.Parameters.AddWithValue("@Date", e.Date);
+                sqlCommand.Parameters.AddWithValue("@Location", e.Location);
+                sqlCommand.Parameters.AddWithValue("@Description", e.Description);
+
+                // Open the connection
+                conn.Open();
+
+                // Execute the command
+                int rowsAffected = sqlCommand.ExecuteNonQuery();
+
+                // Close the connection
+                conn.Close();
+
+                if (rowsAffected > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        // Now, go to EventService.cs and implement the UpdateEvent method
     }
 }

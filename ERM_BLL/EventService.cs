@@ -37,5 +37,25 @@ namespace ERM_BLL
             return eR.AddEvent(e);
         }
         // Now, go to EventController.cs and implement inside the Create method the code to add an event to the database using EventService.
+
+        public bool DeleteEventService(int id)
+        {
+            // Create an instance of EventRepository
+            EventRepository eR = new EventRepository();
+
+            // Call the DeleteEvent method of EventRepository to delete an event
+            return eR.DeleteEvent(id);
+        }
+        // Now, go to EventController.cs and implement inside the Delete method the code to delete an event from the database using EventService.
+
+        public bool UpdateEventService(Event e)
+        {
+            // Create an instance of EventRepository
+            EventRepository eR = new EventRepository();
+
+            // Call the UpdateEvent method of EventRepository to update an event
+            return eR.UpdateEvent(e);
+        }
+        // Now, go to EventController.cs and implement inside the Edit method the code to update an event in the database using EventService.
     }
 }
