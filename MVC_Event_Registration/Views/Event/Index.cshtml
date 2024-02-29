@@ -1,4 +1,6 @@
-﻿@model IEnumerable<ERM_ENTITIES.Event>
+﻿@* Event list Index *@
+
+@model IEnumerable<ERM_ENTITIES.Event>
 
 @{
     ViewBag.Title = "Index";
@@ -41,9 +43,9 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.EventId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.EventId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.EventId })
+            @Html.ActionLink("Edit", "Edit", new { id = item.EventId }) |
+            @Html.ActionLink("Registrations", "Index", "Registration", new { eventId = item.EventId }, null) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.EventId })
         </td>
     </tr>
 }
