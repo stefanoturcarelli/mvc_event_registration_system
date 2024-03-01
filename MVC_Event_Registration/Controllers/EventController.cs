@@ -107,37 +107,19 @@ namespace MVC_Event_Registration.Controllers
         }
 
         // GET: Event/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int eventId)
         {
             // Create an instance of EventService
             EventService eventService = new EventService();
 
             // Call the DeleteEvent method of EventService to delete an event
-            if (eventService.DeleteEventService(id))
+            if (eventService.DeleteEventService(eventId))
             {
-                ViewBag.Message = "Event deleted successfully";
                 return RedirectToAction("Index");
             }
             else
             {
-                ViewBag.Message = "Event not deleted";
                 return RedirectToAction("Index");
-            }
-        }
-
-        // POST: Event/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
             }
         }
     }

@@ -183,6 +183,7 @@
     <Content Include="Views\Event\Edit.cshtml" />
     <Content Include="Views\Event\Index.cshtml" />
     <Content Include="Views\Registration\Index.cshtml" />
+    <Content Include="Views\Registration\Edit.cshtml" />
     <Content Include="Views\Registration\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>

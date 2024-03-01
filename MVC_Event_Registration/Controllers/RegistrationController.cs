@@ -3,6 +3,7 @@ using ERM_ENTITIES;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -22,6 +23,8 @@ namespace MVC_Event_Registration.Controllers
             // We use TempData to pass the eventId to the view
             TempData["EventId"] = eventId;
 
+            TempData.Keep();
+
             return View(registrations);
         }
 
@@ -34,27 +37,11 @@ namespace MVC_Event_Registration.Controllers
         // GET: Registration/Create
         public ActionResult Create()
         {
-            // Create a null Registration object
-            Registration registration = null;
+            var events = new EventService().GetAllEvents();
 
-            // We use TempData to pass the eventId to the view
-            int eventId = (int)TempData["EventId"];
+            ViewBag.Events = events;
 
-            // If the eventId is not 0, then create a new Registration object
-            if (eventId != 0)
-            {
-                // Create a new Registration object
-                registration = new Registration()
-                {
-                    // Set the EventId and RegistrationDate properties
-                    EventId = eventId,
-                    // Set the RegistrationDate property to the current date and time
-                    RegistrationDate = null
-                };
-            }
-
-            // Pass the Registration object to the view
-            return View(registration);
+            return View();
         }
 
         // POST: Registration/Create
@@ -89,18 +76,39 @@ namespace MVC_Event_Registration.Controllers
         // GET: Registration/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            // Create a new instance of RegistrationService
+            RegistrationService registrationService = new RegistrationService();
+
+            // Fetch all registrations and use LINQ to get the registration with the specified id
+            var specificRegistration = registrationService.GetAllRegistrations(0).Find(r => r.RegistrationId == id);
+
+            // Pass the registration to the view
+            return View(specificRegistration);
         }
 
         // POST: Registration/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Registration r)
         {
             try
             {
                 // TODO: Add update logic here
 
-                return RedirectToAction("Index");
+                // Create a new instance of RegistrationService
+                RegistrationService registrationService = new RegistrationService();
+
+                // Call the UpdateRegistrationService method of RegistrationService and pass the registration object
+                bool result = registrationService.UpdateRegistrationService(r);
+                if (result)
+                {
+                    ViewBag.Message = "Registration updated successfully";
+                    return View();
+
+                }
+                else
+                {
+                    return View();
+                }
             }
             catch
             {
@@ -109,24 +117,19 @@ namespace MVC_Event_Registration.Controllers
         }
 
         // GET: Registration/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int registrationId)
         {
-            return View();
-        }
+            // Create a new instance of RegistrationService
+            RegistrationService registrationService = new RegistrationService();
 
-        // POST: Registration/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
+            // Call the DeleteRegistrationService method of RegistrationService and pass the registrationId
+            if (registrationService.DeleteRegistrationService(registrationId))
             {
-                // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
-            catch
+            else
             {
-                return View();
+                return RedirectToAction("Index");
             }
         }
     }
