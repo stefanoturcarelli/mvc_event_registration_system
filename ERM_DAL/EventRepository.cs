@@ -46,20 +46,17 @@ namespace ERM_DAL
 
                 // Convert ADO.NET DataTable to List of Event objects
                 // Loop through each row in the DataTable
-                foreach (DataRow row in dt.Rows)
+                foreach (DataRow dr in dt.Rows)
                 {
-                    // Create a new Event object
-                    Event e = new Event();
-
-                    // Set the properties of the Event object
-                    e.EventId = Convert.ToInt32(row["EventId"]);
-                    e.Name = row["Name"].ToString();
-                    e.Date = Convert.ToDateTime(row["Date"]);
-                    e.Location = row["Location"].ToString();
-                    e.Description = row["Description"].ToString();
-
-                    // Add the Event object to the list
-                    events.Add(e);
+                    events.Add(
+                            new Event
+                            {
+                                EventId = Convert.ToInt32(dr["EventId"]),
+                                Name = Convert.ToString(dr["Name"]),
+                                Location = Convert.ToString(dr["Location"]),
+                                Date = Convert.ToDateTime(dr["Date"]),
+                                Description = Convert.ToString(dr["Description"]),
+                            });
                 }
 
                 // Return the list of events

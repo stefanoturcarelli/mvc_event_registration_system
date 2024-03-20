@@ -80,7 +80,7 @@ namespace MVC_Event_Registration.Controllers
             RegistrationService registrationService = new RegistrationService();
 
             // Fetch all registrations and use LINQ to get the registration with the specified id
-            var specificRegistration = registrationService.GetAllRegistrations(0).Find(r => r.RegistrationId == id);
+            var specificRegistration = registrationService.GetAllRegistrations(id).Find(r => r.RegistrationId == id);
 
             // Pass the registration to the view
             return View(specificRegistration);
@@ -103,7 +103,6 @@ namespace MVC_Event_Registration.Controllers
                 {
                     ViewBag.Message = "Registration updated successfully";
                     return View();
-
                 }
                 else
                 {
@@ -122,15 +121,17 @@ namespace MVC_Event_Registration.Controllers
             // Create a new instance of RegistrationService
             RegistrationService registrationService = new RegistrationService();
 
+            int eventId = (int)TempData["EventId"];
+
+            var specificRegistration = registrationService.GetAllRegistrations(eventId).Find(r => r.RegistrationId == registrationId);
+
             // Call the DeleteRegistrationService method of RegistrationService and pass the registrationId
-            if (registrationService.DeleteRegistrationService(registrationId))
+            if (registrationService.DeleteRegistrationService(registrationId, specificRegistration.EventId))
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { eventId = eventId });
             }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+
+            return null;
         }
     }
 }

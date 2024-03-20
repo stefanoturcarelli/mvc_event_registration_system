@@ -65,13 +65,13 @@ namespace ERM_BLL
         // Now, go the RegistrationController.cs file
 
         // Create a method to delete a registration
-        public bool DeleteRegistrationService(int registrationId)
+        public bool DeleteRegistrationService(int registrationId, int eventId)
         {
             // Create a new instance of RegistrationRepository
             RegistrationRepository registrationRepository = new RegistrationRepository();
 
             // Call the DeleteRegistration method of RegistrationRepository and pass the registrationId
-            return registrationRepository.DeleteRegistration(registrationId);
+            return registrationRepository.DeleteRegistration(registrationId, eventId);
         }
         // Now, go the RegistrationController.cs file
     }

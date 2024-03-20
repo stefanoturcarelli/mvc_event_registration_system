@@ -43,22 +43,19 @@ namespace ERM_DAL
 
                 // Convert ADO.NET DataTable to List of Registration objects
                 // Loop through each row in the DataTable
-                foreach (DataRow row in dt.Rows)
+                foreach (DataRow dr in dt.Rows)
                 {
-                    // Create a new Registration object
-                    Registration r = new Registration();
-
-                    // Set the properties of the Registration object
-                    r.EventId = Convert.ToInt32(row["EventId"]);
-                    r.AttendeeFirstName = row["AttendeeFirstName"].ToString();
-                    r.AttendeeLastName = row["AttendeeLastName"].ToString();
-                    r.Email = row["Email"].ToString();
-                    r.RegistrationDate = Convert.ToDateTime(row["RegistrationDate"]);
-
-                    // Add the Registration object to the list
-                    registrations.Add(r);
+                    registrations.Add(
+                            new Registration
+                            {
+                                RegistrationId = Convert.ToInt32(dr["RegistrationId"]),
+                                EventId = Convert.ToInt32(dr["EventId"]),
+                                AttendeeFirstName = Convert.ToString(dr["AttendeeFirstName"]),
+                                AttendeeLastName = Convert.ToString(dr["AttendeeLastName"]),
+                                RegistrationDate = Convert.ToDateTime(dr["RegistrationDate"]),
+                                Email = Convert.ToString(dr["Email"]),
+                            });
                 }
-
 
                 // Return the list of registrations
                 return registrations;
@@ -204,7 +201,7 @@ namespace ERM_DAL
         }
 
         // Create a method to delete a registration
-        public bool DeleteRegistration(int registrationId)
+        public bool DeleteRegistration(int registrationId, int eventId)
         {
             // Connect to the database and delete a registration with "using" statement
             using (SqlConnection conn = new SqlConnection(Connection.ConnectionString))
@@ -220,6 +217,7 @@ namespace ERM_DAL
 
                 // Add parameters to the SqlCommand object
                 sqlCommand.Parameters.AddWithValue("@RegistrationId", registrationId);
+                sqlCommand.Parameters.AddWithValue("@EventId", eventId);
 
                 // Open the connection
                 conn.Open();
